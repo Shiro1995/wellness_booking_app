@@ -1,8 +1,10 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import Toast from 'react-native-root-toast';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { onGetBooking } from '../../actions';
+import COLORS from '../../common/theme/colors';
 import { fetchLoadmore } from '../../common/utils';
 import { LOGIN_SCREEN } from '../../navigation/screenName';
 import { signOut } from '../../reducers/bookingReducer';
@@ -21,6 +23,7 @@ const Home = ({ navigation, route }) => {
     () => (Array.isArray(listBooking) ? listBooking.length : 0),
     [listBooking],
   );
+
   const onLoadmore = useCallback(
     async info => {
       if (loadingMore || allLoaded) {
@@ -56,6 +59,7 @@ const Home = ({ navigation, route }) => {
     removeLocalData();
     dispatch(onGetBooking());
   }, [dispatch, removeLocalData]);
+
 
   const open = useCallback(() => {
     setVisible(true);

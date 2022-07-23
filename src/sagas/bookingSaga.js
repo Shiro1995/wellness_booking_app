@@ -1,11 +1,11 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import axios from 'axios';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import { onCreateBooking, onGetBooking } from '../actions';
 import { sortList } from '../common/utils';
 import { setBookingData, setLoading, setLoadingCreate, updateBooking } from '../reducers/bookingReducer';
 import API from '../services/api';
+import axios from '../services/api/axios';
 
 export const onGetBookingSaga = function* () {
   try {
@@ -22,22 +22,26 @@ export const onGetBookingSaga = function* () {
       const list = sortList(listCustom);
       yield put(setBookingData({ list }));
     }
-  } catch (e) {
+  } catch (error) {
     yield put(setLoading(false));
-    // console.log(e.message);
   }
 };
 
-export const onCreateBookingSaga = function* ({ payload: { input } }) {
+export const onCreateBookingSaga = function* ({ payload: { input, callbackSuccess, callbackFailure } }) {
   try {
     yield put(setLoadingCreate(true));
     const { data } = yield call(axios.post, API.createBooking, input);
     if (data) {
       yield put(updateBooking({ input }));
+      if (callbackSuccess) {
+        callbackSuccess();
+      }
     }
-  } catch (e) {
+  } catch (error) {
     yield put(setLoadingCreate(false));
-    // console.log(e.message);
+    if (callbackFailure) {
+      callbackFailure(error.response.data);
+    }
   }
 };
 

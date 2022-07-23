@@ -22,7 +22,7 @@ const screenMapping = [
 ];
 
 const rootStack = (
-  <Stack.Navigator initialRouteName={SCREEN_NAME.HOME_SCREEN}>
+  <Stack.Navigator initialRouteName={SCREEN_NAME.LOGIN_SCREEN}>
     <Stack.Group>
       {screenMapping.map(screen => (
         <Stack.Screen

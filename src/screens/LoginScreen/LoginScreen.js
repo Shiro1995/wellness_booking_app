@@ -14,8 +14,8 @@ const LoginScreen = ({ isLoading, onSubmit }) => {
     formState: { errors, isDirty, isValid },
   } = useForm({
     defaultValues: {
-      firstName: '',
-      lastName: '',
+      userName: '',
+      password: '',
     },
   });
 
@@ -53,15 +53,15 @@ const LoginScreen = ({ isLoading, onSubmit }) => {
       <DismissKeyboard>
         <View style={styles.container}>
           <Text style={styles.title}>Login</Text>
-          <InputText placeholder='userName' name='firstName' style={styles.userName} />
-          {errors.firstName && <Text style={styles.errorMessageText}>UserName is required. </Text>}
+          <InputText placeholder='userName' name='userName' style={styles.userName} />
+          {errors.userName && <Text style={styles.errorMessageText}>UserName is required. </Text>}
           <InputText
             placeholder='password'
-            name='lastName'
+            name='password'
             style={styles.password}
             secureTextEntry
           />
-          {errors.lastName && <Text style={styles.errorMessageText}>Password is required.</Text>}
+          {errors.password && <Text style={styles.errorMessageText}>Password is required.</Text>}
           <CustomButton
             label='Sign in'
             style={[styles.submitBtn, { opacity: isDisable ? 0.5 : 1 }]}

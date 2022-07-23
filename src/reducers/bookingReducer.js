@@ -25,7 +25,7 @@ const bookingSlice = createSlice({
     },
     updateBooking(state, { payload: { input } }) {
       let tempList = state.listBooking;
-      tempList.unshift(input);
+      tempList.unshift({...input, _id: input.created_at});
       state.listBooking = tempList;
       state.isLoadingCreate = false;
     },

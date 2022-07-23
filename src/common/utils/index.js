@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { useWindowDimensions } from 'react-native';
 
 export const convertDateTime = timestamp => {
   if (!timestamp) {
@@ -19,13 +20,19 @@ export const fetchLoadmore = (startingId = 0, listBooking) => {
 
   // eslint-disable-next-line no-plusplus
   for (let i = startingId; i < startingId + 5; i++) {
-    if (listBooking[i] === undefined) {break;}
+    if (listBooking[i] === undefined) {
+      break;
+    }
 
     obj.push(listBooking[i]);
   }
   return sortList(obj);
 };
 
-export const sortList = (listBooking) => {
-  return listBooking.sort((a,b) => (dayjs(a.created_at).isBefore(b.created_at)) ? 1 : -1);
+export const sortList = listBooking => {
+  return listBooking.sort((a, b) => (dayjs(a.created_at).isBefore(b.created_at) ? 1 : -1));
 };
+
+const { width } = useWindowDimensions();
+
+export const TOAST_SWIPE_DISTANCE = width / 4;

@@ -12,6 +12,7 @@ import {
 import DatePicker from 'react-native-date-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Modal from 'react-native-modal';
+import Toast from 'react-native-root-toast';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { onCreateBooking } from '../../actions';
@@ -95,9 +96,42 @@ const ModalCreateBooking = ({ visible, close }) => {
       created_at: convertDateTimeToRequest(dayjs()),
       created_by: userName,
     };
-    dispatch(onCreateBooking({input}));
+    dispatch(onCreateBooking({
+      input,
+      callbackSuccess: onSuccess,
+      callbackFailure: onFailure,
+    }));
     close();
-  }, [close, date, dispatch, userName, valueDropdown]);
+  }, [close, date, dispatch, onFailure, onSuccess, userName, valueDropdown]);
+
+  const onSuccess = useCallback(() => {
+    let toast = Toast.show('Create Success', {
+      position: Toast.positions.BOTTOM,
+      animation: true,
+      hideOnPress: true,
+      backgroundColor: COLORS.SUCCESS_80,
+    });
+
+    const toastTimmer = setTimeout(function () {
+      Toast.hide(toast);
+      clearTimeout(toastTimmer);
+    }, 2000);
+    reset();
+  }, [reset]);
+
+  const onFailure = useCallback(message => {
+    let toast = Toast.show(message, {
+      position: Toast.positions.BOTTOM,
+      animation: true,
+      hideOnPress: true,
+      backgroundColor: 'red',
+    });
+
+    const toastTimmer = setTimeout(function () {
+      Toast.hide(toast);
+      clearTimeout(toastTimmer);
+    }, 2000);
+  }, []);
 
   return (
     <Modal
