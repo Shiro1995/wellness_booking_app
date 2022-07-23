@@ -14,6 +14,7 @@ import IMAGES from '../../common/theme/assets';
 import { convertDateTime } from '../../common/utils';
 import CustomButton from '../../component/Button/CustomButton';
 import LoadingItem from '../../component/Loading/Loading';
+import ModalCreateBooking from '../../component/ModalCreateBooking/ModalCreateBooking';
 import styles from './styles';
 
 const HomeScreen = ({
@@ -99,6 +100,7 @@ const HomeScreen = ({
         />
       </View>
       <CustomButton onPress={open} style={styles.floatBtn} label='add booking' />
+      <ModalCreateBooking visible={visible} close={close} />
     </SafeAreaView>
   );
 };

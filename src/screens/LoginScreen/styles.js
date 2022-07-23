@@ -27,10 +27,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 10,
     marginTop: 10,
+    paddingLeft: 10,
   },
   userName: {
     borderWidth: 1,
     borderRadius: 8,
+    paddingLeft: 10,
   },
   submitBtn: {
     backgroundColor: 'red',

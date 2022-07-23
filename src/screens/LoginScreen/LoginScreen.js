@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { SafeAreaView, Text, TextInput, TouchableHighlight, View } from 'react-native';
 
@@ -22,47 +22,43 @@ const LoginScreen = ({ isLoading, onSubmit }) => {
     return !isValid && !isDirty;
   }, [isValid, isDirty]);
 
+  const InputText = useCallback(
+    ({ placeholder, name, style, secureTextEntry }) => {
+      return (
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={style}
+              placeholder={placeholder}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              secureTextEntry={secureTextEntry}
+            />
+          )}
+          name={name}
+        />
+      );
+    },
+    [control],
+  );
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <DismissKeyboard>
         <View style={styles.container}>
           <Text style={styles.title}>Login</Text>
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.userName}
-                placeholder='userName'
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-            )}
-            name='firstName'
-          />
+          <InputText placeholder='userName' name='firstName' style={styles.userName} />
           {errors.firstName && <Text style={styles.errorMessageText}>UserName is required. </Text>}
-          <Controller
-            control={control}
-            rules={{
-              maxLength: 100,
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <View style={styles.passwordRow}>
-                <TextInput
-                  onBlur={onBlur}
-                  placeholder='password'
-                  onChangeText={onChange}
-                  value={value}
-                  style={styles.password}
-                  secureTextEntry={true}
-                />
-              </View>
-            )}
+          <InputText
+            placeholder='password'
             name='lastName'
+            style={styles.password}
+            secureTextEntry
           />
           {errors.lastName && <Text style={styles.errorMessageText}>Password is required.</Text>}
           <TouchableHighlight
