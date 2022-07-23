@@ -7,6 +7,13 @@ export const convertDateTime = timestamp => {
   return dayjs(timestamp).format('HH:mm, DD/MM/YYYY');
 };
 
+export const convertDateTimeToRequest = timestamp => {
+  if (!timestamp) {
+    return undefined;
+  }
+  return dayjs(timestamp).format('YYYY-MM-DDTHH:mm:ss');
+};
+
 export const fetchLoadmore = (startingId = 0, listBooking) => {
   let obj = [];
 

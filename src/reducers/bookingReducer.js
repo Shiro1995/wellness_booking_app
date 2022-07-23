@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const initialState = {
   isLoading: false,
   listBooking: [],
+  isLoadingCreate: false,
 };
 
 const bookingSlice = createSlice({
@@ -19,9 +20,19 @@ const bookingSlice = createSlice({
     signOut() {
       return initialState;
     },
+    setLoadingCreate(state, { payload: loading }) {
+      state.isLoadingCreate = loading;
+    },
+    updateBooking(state, { payload: { input } }) {
+      let tempList = state.listBooking;
+      tempList.unshift(input);
+      state.listBooking = tempList;
+      state.isLoadingCreate = false;
+    },
   },
 });
 
-export const { setLoading, setBookingData, signOut } = bookingSlice.actions;
+export const { setLoading, setBookingData, signOut, updateBooking, setLoadingCreate } =
+  bookingSlice.actions;
 
 export const bookingReducer = bookingSlice.reducer;

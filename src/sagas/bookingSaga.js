@@ -2,9 +2,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
-import { onGetBooking } from '../actions';
+import { onCreateBooking, onGetBooking } from '../actions';
 import { sortList } from '../common/utils';
-import { setBookingData, setLoading } from '../reducers/bookingReducer';
+import { setBookingData, setLoading, setLoadingCreate, updateBooking } from '../reducers/bookingReducer';
 import API from '../services/api';
 
 export const onGetBookingSaga = function* () {
@@ -21,11 +21,22 @@ export const onGetBookingSaga = function* () {
       // avoid to sort all list, we just sort on each every 5 items.
       const list = sortList(listCustom);
       yield put(setBookingData({ list }));
-    } else {
-      // console.log(data);
     }
   } catch (e) {
     yield put(setLoading(false));
+    // console.log(e.message);
+  }
+};
+
+export const onCreateBookingSaga = function* ({ payload: { input } }) {
+  try {
+    yield put(setLoadingCreate(true));
+    const { data } = yield call(axios.post, API.createBooking, input);
+    if (data) {
+      yield put(updateBooking({ input }));
+    }
+  } catch (e) {
+    yield put(setLoadingCreate(false));
     // console.log(e.message);
   }
 };
@@ -35,5 +46,8 @@ async function saveLocalData(data) {
 }
 
 export const bookingSaga = function* () {
-  yield all([takeLatest(onGetBooking, onGetBookingSaga)]);
+  yield all([
+    takeLatest(onGetBooking, onGetBookingSaga),
+    takeLatest(onCreateBooking, onCreateBookingSaga),
+  ]);
 };

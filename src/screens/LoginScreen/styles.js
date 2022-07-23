@@ -1,5 +1,7 @@
 import {StyleSheet} from 'react-native';
 
+import COLORS from '../../common/theme/colors';
+
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
@@ -14,7 +16,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   errorMessageContainer: {
-    borderRadius: 8,
+    borderRadius: 10,
     paddingHorizontal: 18,
     paddingVertical: 12,
     marginTop: 16,
@@ -24,19 +26,19 @@ const styles = StyleSheet.create({
   },
   password: {
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 10,
     marginBottom: 10,
     marginTop: 10,
     paddingLeft: 10,
   },
   userName: {
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 10,
     paddingLeft: 10,
   },
   submitBtn: {
-    backgroundColor: 'red',
-    borderRadius: 8,
+    backgroundColor: COLORS.PRIMARY_50,
+    borderRadius: 10,
     paddingHorizontal: 4,
     paddingVertical: 3,
     height: 56,

@@ -9,8 +9,9 @@ const CustomButton = ({
   style,
   color = COLORS.SECONDARY_100,
   onPress,
+  disabled,
 }) => {
-  return <FAB label={label} onPress={onPress} color={color} style={[styles.btnStyle, style]} small />;
+  return <FAB label={label} onPress={onPress} color={color} style={[styles.btnStyle, style]} small disabled={disabled}/>;
 };
 
 export default CustomButton;
@@ -18,5 +19,6 @@ export default CustomButton;
 const styles = StyleSheet.create({
   btnStyle: {
     backgroundColor: COLORS.SECONDARY,
+    borderRadius: 10,
   },
 });

@@ -1,7 +1,8 @@
 import React, { memo, useCallback, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { SafeAreaView, Text, TextInput, TouchableHighlight, View } from 'react-native';
+import { SafeAreaView, Text, TextInput, View } from 'react-native';
 
+import CustomButton from '../../component/Button/CustomButton';
 import DismissKeyboard from '../../component/DissmissKeyboard/DissmissKeyboard';
 import LoadingItem from '../../component/Loading/Loading';
 import styles from './styles';
@@ -61,13 +62,12 @@ const LoginScreen = ({ isLoading, onSubmit }) => {
             secureTextEntry
           />
           {errors.lastName && <Text style={styles.errorMessageText}>Password is required.</Text>}
-          <TouchableHighlight
+          <CustomButton
+            label='Sign in'
             style={[styles.submitBtn, { opacity: isDisable ? 0.5 : 1 }]}
             onPress={handleSubmit(onSubmit)}
             disabled={isDisable}
-          >
-            <Text style={styles.textBtn}>Submit</Text>
-          </TouchableHighlight>
+          />
           {isLoading && <LoadingItem />}
         </View>
       </DismissKeyboard>

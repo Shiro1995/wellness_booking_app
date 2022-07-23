@@ -10,8 +10,6 @@ const Login = ({ navigation }) => {
   const dispatch = useDispatch();
   const {isLogin, isLoading, userName } = useSelector(selectAuthenState);
 
-
-
   const onSubmit = data => {
     dispatch(onLogin());
   };

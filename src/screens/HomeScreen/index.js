@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { onGetBooking } from '../../actions';
 import { fetchLoadmore } from '../../common/utils';
 import { LOGIN_SCREEN } from '../../navigation/screenName';
-import {signOut } from '../../reducers/bookingReducer';
+import { signOut } from '../../reducers/bookingReducer';
 import { setBookingData } from '../../reducers/bookingReducer';
 import { selectBookingState } from '../../selectors/bookingSelector';
 import HomeScreen from './HomeScreen';
@@ -13,7 +13,7 @@ import HomeScreen from './HomeScreen';
 const Home = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
-  const { isLoading, listBooking } = useSelector(selectBookingState);
+  const { isLoadingCreate, isLoading, listBooking } = useSelector(selectBookingState);
   const [loadingMore, setLoadingMore] = useState(false);
   const { userName } = route.params || {};
   const [allLoaded, setAllLoaded] = useState(false);
@@ -50,7 +50,7 @@ const Home = ({ navigation, route }) => {
     removeLocalData();
     dispatch(signOut());
     navigation.replace(LOGIN_SCREEN);
-  },[dispatch, navigation, removeLocalData]);
+  }, [dispatch, navigation, removeLocalData]);
 
   useEffect(() => {
     removeLocalData();
@@ -61,9 +61,9 @@ const Home = ({ navigation, route }) => {
     setVisible(true);
   }, []);
 
-   const close = useCallback(() => {
-      setVisible(false);
-    }, []);
+  const close = useCallback(() => {
+    setVisible(false);
+  }, []);
 
   return (
     <HomeScreen
@@ -77,6 +77,7 @@ const Home = ({ navigation, route }) => {
       visible={visible}
       open={open}
       close={close}
+      isLoadingCreate={isLoadingCreate}
     />
   );
 };

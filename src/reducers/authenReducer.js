@@ -4,7 +4,6 @@ export const initialState = {
   isLoading: false,
   isLogin: undefined,
   userName: '',
-  cardInfo: {},
 };
 
 const authenSlice = createSlice({

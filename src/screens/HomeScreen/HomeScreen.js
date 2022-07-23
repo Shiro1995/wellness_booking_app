@@ -27,6 +27,7 @@ const HomeScreen = ({
   visible,
   open,
   close,
+  isLoadingCreate,
 }) => {
   if (isLoading) {
     return (
@@ -39,6 +40,13 @@ const HomeScreen = ({
   const renderSeparator = useCallback(() => {
     return <View style={styles.separate} />;
   }, []);
+
+  const renderHeaderList = useCallback(() => {
+    if (!isLoadingCreate) {
+      return null;
+    }
+    return <LoadingItem />;
+  }, [isLoadingCreate]);
 
   const renderFotter = useCallback(() => {
     if (!loadingMore) {
@@ -92,6 +100,7 @@ const HomeScreen = ({
           onEndReached={onLoadmore}
           ItemSeparatorComponent={renderSeparator}
           ListFooterComponent={renderFotter}
+          ListHeaderComponent={renderHeaderList}
           initialNumToRender={5}
           maxToRenderPerBatch={5}
           onEndReachedThreshold={0.01}

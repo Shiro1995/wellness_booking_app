@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import React, { useCallback, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
@@ -11,16 +12,28 @@ import {
 import DatePicker from 'react-native-date-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Modal from 'react-native-modal';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { onCreateBooking } from '../../actions';
 import { statusBarHeight } from '../../common/constant';
 import COLORS from '../../common/theme/colors';
-import { convertDateTime } from '../../common/utils';
+import { convertDateTime, convertDateTimeToRequest } from '../../common/utils';
+import { selectAuthenState } from '../../selectors/loginSelector';
 import CustomButton from '../Button/CustomButton';
 import DismissKeyboard from '../DissmissKeyboard/DissmissKeyboard';
 import styles from './style';
 
 const ModalCreateBooking = ({ visible, close }) => {
+  const dispatch = useDispatch();
   const { width, height } = useWindowDimensions();
+
+  /**
+   * Selector
+   */
+  const { userName } = useSelector(selectAuthenState);
+  /**
+   * State
+   */
   const [valueDropdown, setValueDropdown] = useState('Health Talk');
   const [items, setItems] = useState([
     { label: 'Health Talk', value: 'Health Talk' },
@@ -75,12 +88,16 @@ const ModalCreateBooking = ({ visible, close }) => {
   );
 
   const onSubmit = useCallback((data) => {
-    const input ={
-      event_title : data.location,
-      event_locatio: data.location,
-      confirmed_datetime: data.location,
+    const input = {
+      event_title : valueDropdown,
+      event_location: data.location,
+      confirmed_datetime: convertDateTimeToRequest(date),
+      created_at: convertDateTimeToRequest(dayjs()),
+      created_by: userName,
     };
-  }, []);
+    dispatch(onCreateBooking({input}));
+    close();
+  }, [close, date, dispatch, userName, valueDropdown]);
 
   return (
     <Modal
