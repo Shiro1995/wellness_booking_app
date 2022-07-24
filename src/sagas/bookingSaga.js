@@ -7,10 +7,10 @@ import { setBookingData, setLoading, setLoadingCreate, updateBooking } from '../
 import API from '../services/api';
 import axios from '../services/api/axios';
 
-export const onGetBookingSaga = function* () {
+export const onGetBookingSaga = function* ({ payload: { userName } }) {
   try {
     const input = {
-      user: 'hr1@gmail.com',
+      user: userName,
     };
     yield put(setLoading(true));
     const { data } = yield call(axios.post, API.getBooking, input);

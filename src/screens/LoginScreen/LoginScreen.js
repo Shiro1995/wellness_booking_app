@@ -1,13 +1,13 @@
 import React, { memo, useCallback, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { SafeAreaView, Text, TextInput, View } from 'react-native';
+import { SafeAreaView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import CustomButton from '../../component/Button/CustomButton';
 import DismissKeyboard from '../../component/DissmissKeyboard/DissmissKeyboard';
 import LoadingItem from '../../component/Loading/Loading';
 import styles from './styles';
 
-const LoginScreen = ({ isLoading, onSubmit }) => {
+const LoginScreen = ({ isLoading, onSubmit, isSecure, showPassowrd }) => {
   const {
     control,
     handleSubmit,
@@ -52,15 +52,20 @@ const LoginScreen = ({ isLoading, onSubmit }) => {
     <SafeAreaView style={styles.safeArea}>
       <DismissKeyboard>
         <View style={styles.container}>
-          <Text style={styles.title}>Login</Text>
+          <Text style={styles.title}>Welcome {'\nWellness Booking'}</Text>
           <InputText placeholder='userName' name='userName' style={styles.userName} />
           {errors.userName && <Text style={styles.errorMessageText}>UserName is required. </Text>}
-          <InputText
-            placeholder='password'
-            name='password'
-            style={styles.password}
-            secureTextEntry
-          />
+          <View style={styles.passwordField}>
+            <InputText
+              placeholder='password'
+              name='password'
+              style={styles.password}
+              secureTextEntry={isSecure}
+            />
+            <TouchableOpacity onPress={showPassowrd} style={styles.showBtn}>
+              <Text style={styles.textShow}>{isSecure ? 'show' : 'hide'}</Text>
+            </TouchableOpacity>
+          </View>
           {errors.password && <Text style={styles.errorMessageText}>Password is required.</Text>}
           <CustomButton
             label='Sign in'
@@ -68,7 +73,7 @@ const LoginScreen = ({ isLoading, onSubmit }) => {
             onPress={handleSubmit(onSubmit)}
             disabled={isDisable}
           />
-          {isLoading && <LoadingItem />}
+          <View style={styles.loadingView}>{isLoading && <LoadingItem />}</View>
         </View>
       </DismissKeyboard>
     </SafeAreaView>

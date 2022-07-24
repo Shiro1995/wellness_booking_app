@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
+import { Keyboard } from 'react-native';
 import Toast from 'react-native-root-toast';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -11,8 +12,9 @@ import LoginScreen from './LoginScreen';
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
   const { isLoading } = useSelector(selectAuthenState);
-
+  const [isSecure, setIsSecure] = useState(true);
   const onSubmit = data => {
+    Keyboard.dismiss();
     dispatch(
       onLogin({
         username: data.userName,
@@ -23,20 +25,28 @@ const Login = ({ navigation }) => {
     );
   };
 
-  const onSuccess = useCallback((userName) => {
-    let toast = Toast.show('Login Success', {
-      position: Toast.positions.BOTTOM,
-      animation: true,
-      hideOnPress: true,
-      backgroundColor: COLORS.SUCCESS_80,
-    });
-    navigation.replace(HOME_SCREEN, { userName });
+  const showPassowrd = useCallback(() => {
+    Keyboard.dismiss();
+    setIsSecure(!isSecure);
+  },[isSecure]);
 
-    const toastTimmer = setTimeout(function () {
-      Toast.hide(toast);
-      clearTimeout(toastTimmer);
-    }, 2000);
-  }, [navigation]);
+  const onSuccess = useCallback(
+    userName => {
+      let toast = Toast.show('Login Success', {
+        position: Toast.positions.BOTTOM,
+        animation: true,
+        hideOnPress: true,
+        backgroundColor: COLORS.SUCCESS_80,
+      });
+      navigation.replace(HOME_SCREEN, { userName });
+
+      const toastTimmer = setTimeout(function () {
+        Toast.hide(toast);
+        clearTimeout(toastTimmer);
+      }, 2000);
+    },
+    [navigation],
+  );
 
   const onFailure = useCallback(message => {
     let toast = Toast.show(message, {
@@ -59,7 +69,14 @@ const Login = ({ navigation }) => {
   // // eslint-disable-next-line react-hooks/exhaustive-deps
   // },[isLogin]);
 
-  return <LoginScreen isLoading={isLoading} onSubmit={onSubmit} />;
+  return (
+    <LoginScreen
+      isLoading={isLoading}
+      onSubmit={onSubmit}
+      isSecure={isSecure}
+      showPassowrd={showPassowrd}
+    />
+  );
 };
 
 export default Login;

@@ -13,7 +13,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
   },
   title: {
-    fontSize: 20,
+    fontSize: 26,
+    textAlign: 'center',
+    marginBottom: 30,
+    fontWeight: 'bold',
+    color: COLORS.SECONDARY,
   },
   errorMessageContainer: {
     borderRadius: 10,
@@ -37,7 +41,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   submitBtn: {
-    backgroundColor: COLORS.PRIMARY_50,
+    backgroundColor: COLORS.SECONDARY_80,
     borderRadius: 10,
     paddingHorizontal: 4,
     paddingVertical: 3,
@@ -47,6 +51,20 @@ const styles = StyleSheet.create({
   },
   textBtn: {
     alignSelf: 'center',
+  },
+  loadingView: {
+    height: 50,
+  },
+  passwordField: {
+    justifyContent: 'center',
+  },
+  showBtn: {
+    position: 'absolute',
+    right: 0,
+    marginRight: 10,
+  },
+  textShow: {
+    fontWeight: 'bold',
   },
 });
 
