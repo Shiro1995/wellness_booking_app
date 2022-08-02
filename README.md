@@ -1,6 +1,6 @@
 # Wellness Booking App
 
-This is a simple repository for building a mobile app by React Native framework. It follows the requirement in the coding challenge of my interview.
+This is a simple repository for building a mobile app by React Native framework. 
 
 ## How To Use?
 
